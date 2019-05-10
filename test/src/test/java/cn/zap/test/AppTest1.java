@@ -101,7 +101,7 @@ public class AppTest1 {
 		}
 	}
 
-	//国家站和区域站分钟雨量
+	//国家站和区域站分钟雨量1111111
 	@Test
 	public void townrain() {
 		interfaceId = "getSurfEleByTimeAndStaID";
