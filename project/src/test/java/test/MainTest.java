@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 //@WebAppConfiguration
 //@Transactional
 //@Rollback(false)
-public class MainTest {
+public class MainTest { 
 	
 	
 	
