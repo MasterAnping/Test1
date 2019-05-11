@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+	<!-- 扫描所有cn.zap包下的注解 -->
+	<context:component-scan base-package="com.zap.service.impl"></context:component-scan>
+		
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"></property>
+		<property name="loginUrl" value="/home"></property>
+		<property name="unauthorizedUrl" value="/home/noPerms"></property>
+		<property name="filters">
+			<util:map>
+				<entry key="anyPerms" value-ref="anyPermissionsAuthorizationFilter" />
+				<entry key="kickout" value-ref="kickoutSessionControlFilter" />
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>			
+				/js/** = anon
+				/css/** = anon
+				/fonts/** = anon
+				/image/** = anon
+				
+				/home/** = anon 
+				/login/** = anon 
+				/user/register = anon
+				/cache/** =anon 
+				
+				/userManage/add* = perms["用户：新增"]
+				/userManage/update* = perms["用户：修改"]
+				/userManage/delete* = perms["用户：删除"]
+				/userManage/** = perms["用户：管理"]
+				  
+				/role/add* = perms["角色：新增"] 
+				/role/update* = perms["角色：修改"]
+				/role/delete* = perms["角色：删除"] 
+				/role/** =perms["角色：管理"]
+				
+				/departManage/add* = perms["部门：新增"]
+				/departManage/update* = perms["部门：修改"]
+				/departManage/delete* = perms["部门：删除"] 
+				/departManage/** =perms["部门：管理"]
+				
+				/logout = logout		
+				/** = authc
+			</value>
+		</property>
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm"></property>
+		<property name="sessionManager" ref="sessionManager"></property>
+		<property name="rememberMeManager" ref="rememberMeManager"></property>
+		<property name="cacheManager" ref="shiroEhCacheManager"></property>
+	</bean>
+
+	<bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+	</bean>
+
+	<bean id="myRealm" class="com.zap.shiro.MyRealm">
+		<property name="authorizationCachingEnabled" value="true" />
+		<property name="authorizationCacheName" value="shiroPermission" />
+	</bean>
+
+
+
+	<!-- shiro缓存 -->
+	<bean id="shiroEhCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:config/ehcache-shiro.xml"></property>
+	</bean>
+
+	
+	
+
+	 <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<!--
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" /> 
+	
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>  -->
+	
+	<bean class = "org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name = "securityManager" ref = "securityManager"/>
+    </bean>
+	
+
+	
+</beans>
+
+
