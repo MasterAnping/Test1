@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zap.dao.RolePermissionMapper">
+  <resultMap id="BaseResultMap" type="com.zap.entity.RolePermissionKey">
+    <id column="RoleId" jdbcType="INTEGER" property="roleid" />
+    <id column="PermissionId" jdbcType="INTEGER" property="permissionid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.zap.entity.RolePermissionKey">
+    delete from role_permission
+    where RoleId = #{roleid,jdbcType=INTEGER}
+      and PermissionId = #{permissionid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zap.entity.RolePermissionKey">
+    insert into role_permission (RoleId, PermissionId)
+    values (#{roleid,jdbcType=INTEGER}, #{permissionid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zap.entity.RolePermissionKey">
+    insert into role_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        RoleId,
+      </if>
+      <if test="permissionid != null">
+        PermissionId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="permissionid != null">
+        #{permissionid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

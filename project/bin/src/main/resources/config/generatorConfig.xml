@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+
+<generatorConfiguration>
+
+	<classPathEntry
+		location="G:\maven repository\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar" />
+
+	<context id="context1">
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+			
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/project" userId="root"
+			password="123456" />
+			
+		<javaModelGenerator targetPackage="com.zap.entity"
+			targetProject="project/src/main/java" >
+			<!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+			<!-- <property name="trimStrings" value="true" /> -->
+			
+		</javaModelGenerator>
+			
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="project/src/main/resources" />
+			
+		
+		<javaClientGenerator targetPackage="com.zap.dao"
+			targetProject="project/src/main/java" type="XMLMAPPER" />
+			
+		
+			
+
+		<table schema="project" tableName="user" enableInsert="true"
+			enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
+			enableDeleteByPrimaryKey="true" enableSelectByExample="false"
+			enableDeleteByExample="false" enableCountByExample="false"
+			enableUpdateByExample="false" >
+					
+		</table>
+		<table schema="project" tableName="role" enableInsert="true"
+			enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
+			enableDeleteByPrimaryKey="true" enableSelectByExample="false"
+			enableDeleteByExample="false" enableCountByExample="false"
+			enableUpdateByExample="false" >					
+		</table>
+		<table schema="project" tableName="permission" enableInsert="true"
+			enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
+			enableDeleteByPrimaryKey="true" enableSelectByExample="false"
+			enableDeleteByExample="false" enableCountByExample="false"
+			enableUpdateByExample="false" >
+					
+		</table>
+		<table schema="project" tableName="user_role" enableInsert="true"
+			enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
+			enableDeleteByPrimaryKey="true" enableSelectByExample="false"
+			enableDeleteByExample="false" enableCountByExample="false"
+			enableUpdateByExample="false" >					
+		</table>
+		<table schema="project" tableName="role_permission" enableInsert="true"
+			enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
+			enableDeleteByPrimaryKey="true" enableSelectByExample="false"
+			enableDeleteByExample="false" enableCountByExample="false"
+			enableUpdateByExample="false" >
+					
+		</table>
+		
+	
+		
+	
+	</context>
+</generatorConfiguration>

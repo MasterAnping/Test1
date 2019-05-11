@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zap.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.zap.entity.Role">
+    <id column="RoleId" jdbcType="INTEGER" property="roleid" />
+    <result column="RoleDesc" jdbcType="VARCHAR" property="roledesc" />
+    <result column="RoleName" jdbcType="VARCHAR" property="rolename" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RoleId, RoleDesc, RoleName
+  </sql>
+  <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where RoleId = #{roleid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role r 
+    inner join user_role ur on ur.roleId = r.roleId
+	inner join user u on ur.userId = u.userId
+    where u.userId = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from ROLE
+	</select>
+
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from role
+    where RoleId = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zap.entity.Role">
+    insert into role (RoleId, RoleDesc, RoleName
+      )
+    values (#{roleid,jdbcType=INTEGER}, #{roledesc,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zap.entity.Role">
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        RoleId,
+      </if>
+      <if test="roledesc != null">
+        RoleDesc,
+      </if>
+      <if test="rolename != null">
+        RoleName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="roledesc != null">
+        #{roledesc,jdbcType=VARCHAR},
+      </if>
+      <if test="rolename != null">
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByRoleIdSelective" parameterType="com.zap.entity.Role">
+    update role
+    <set>
+      <if test="roledesc != null">
+        RoleDesc = #{roledesc,jdbcType=VARCHAR},
+      </if>
+      <if test="rolename != null">
+        RoleName = #{rolename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RoleId = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByRoleId" parameterType="com.zap.entity.Role">
+    update role
+    set RoleDesc = #{roledesc,jdbcType=VARCHAR},
+      RoleName = #{rolename,jdbcType=VARCHAR}
+    where RoleId = #{roleid,jdbcType=INTEGER}
+  </update>
+</mapper>
